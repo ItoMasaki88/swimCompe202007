@@ -36,4 +36,195 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+
+
+    /**=======バリデーション関連=====================================================
+     * バリデーションルール
+     *
+     * @var array
+     */
+    public static $rules = array(
+      'name' => 'required|string|max:255',
+      'email' => 'required|string|email|max:255|unique:users',
+      'password' => 'required|string|min:8|confirmed|regex:/^[a-zA-Z0-9]+$/',
+      'age' => 'required|integer',
+      'sex' => 'required|boolean',
+    );
+
+    /**
+     * エラー返信処理
+     *
+     * @var array
+     */
+  	private $errors;
+
+  	public function validate($data)
+  	{
+    	$v = Validator::make($data, $this->rules);
+ 	    if ($v->fails())
+    	{
+      		$this->errors = $v->errors();
+      		return false;
+    	}
+    	return true;
+  	}
+
+  	public function errors()
+  	{
+    	return $this->errors;
+  	}
+    /**バリデーションここまで=================================================
+     */
+
+   /**リレーション=================================================
+    */
+   /**
+    * エントリーオブジェクト取得
+    *
+    * @return object(Entries)
+    */
+    public function entries()
+    {
+      return $this->hasMany('App\Entry');
+    }
+    /**リレーションここまで=================================================
+     */
+
+
+    /*=========出場レギュレーション関連====================================*/
+    /**
+    * 年齢に関する出場レギュレーション分類
+    *
+    * @param int
+    * @return array(int)
+    *
+    */
+    public function ageClassify() {
+      $age = $this->attributes['age'];
+      if (6<=$age && $age<=12) {
+        return array(1, );
+      } elseif (12<$age && $age<=15) {
+        return array(2, );
+      } elseif (15<$age && $age<=18) {
+        return array(3, );
+      } elseif (18<$age && $age<30) {
+        return array(4, );
+      } elseif (30<=$age && $age<50) {
+        return array(4, 5,);
+      } elseif (50<=$age) {
+        return array(4, 5, 6,);
+      }
+    }
+
+    /**
+    * 性別に関する出場レギュレーション分類
+    *
+    * @param boolean
+    * @return array(int)
+    */
+    public function sexClassify() {
+      $sex = $this->attributes['sex'] == 1;
+      if ($sex) {
+        return array(1, 3,);
+      } else {
+        return array(2, 3,);
+      }
+    }
+    /*=========出場レギュレーション分類 ここまで==============================*/
+
+
+
+
+    /**====================================================================
+    *  Userモデルのアクセサ
+    *
+     * Get 性別
+     *
+     * @param
+     * @return string
+    **/
+    public function getTextSexAttribute()
+    {
+      if ($this->attributes['sex']==1) $sex = '男性';
+      else $sex = '女性';
+      return $sex;
+    }
+
+    /**
+     * Get ID
+     *
+     * @param
+     * @return string
+    **/
+    public function getIdAttribute()
+    {
+      return $this->attributes['id'];
+    }
+    /**
+     * Get 氏名
+     *
+     * @param
+     * @return string
+    **/
+    public function getNameAttribute()
+    {
+      return $this->attributes['name'];
+    }
+    /**
+     * Get Email
+     *
+     * @param
+     * @return string
+    **/
+    public function getEmailAttribute()
+    {
+      return $this->attributes['email'];
+    }
+    /**
+     * Get Admin
+     *
+     * @param
+     * @return string
+    **/
+    public function getAdminAttribute()
+    {
+      return $this->attributes['admin'];
+    }
+    /**
+     * Get 年齢
+     *
+     * @param
+     * @return string
+    **/
+    public function getAgeAttribute()
+    {
+      return $this->attributes['age'];
+    }
+    /**
+     * Get パスワード
+     *
+     * @param
+     * @return string
+    **/
+    public function getPasswordAttribute()
+    {
+      return $this->attributes['password'];
+    }
+
+    /**
+    *  Userモデルのアクセサ　ここまで
+    *************************************************************************/
+
+
+    /**
+     * ★ パスワード再設定メールを送信する
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        Mail::to($this)->send(new PasswordResetMail($token));
+    }
+
+
 }
