@@ -16,7 +16,7 @@ class CreateRacesTable extends Migration
         Schema::create('races', function (Blueprint $table) {
             $table->id();
             $table->foreignId('event_id')->onDelete('cascade');
-            $table->timestamp('startTime');
+            $table->dateTime('startTime');
             $table->integer('lanes');
             $table->timestamps();
         });

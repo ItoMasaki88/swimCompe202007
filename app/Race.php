@@ -9,6 +9,18 @@ class Race extends Model
 {
   protected $guarded =array('id');
 
+  /**
+   * The attributes that should be cast to native types.
+   *
+   * @var array
+   */
+  protected $casts = [
+      'startTime' => 'datetime',
+  ];
+  /**
+   * @var array
+   */
+  protected $dates = ['birth', 'created_at', 'updated_at'];
 
   /**
    * リレーション処理=============================================================

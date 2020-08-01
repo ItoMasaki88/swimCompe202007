@@ -47,7 +47,14 @@
             <label for="sex" class="col-md-4 col-form-label text-md-right">性別</label>
 
             <div class="col-md-6">
-                <input id="sex" type="text" class="form-control @error('sex') is-invalid @enderror" name="sex" value="{{ old('sex') }}" required autocomplete="sex" autofocus>
+                <div class="form-check form-check-inline">
+                  <input type="radio" value="1" class="custom-check-input col-auto my-0" id="male" name="sex">
+                  <label class="custom-check-label col-auto my-0" for="male">男子</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="radio" value="0" class="custom-check-input col-auto my-0" id="female" name="sex">
+                  <label class="custom-check-label col-auto my-0" for="female">女性</label>
+                </div>
 
                 @error('sex')
                     <span class="invalid-feedback" role="alert">

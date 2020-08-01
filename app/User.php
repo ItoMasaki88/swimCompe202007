@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'birth', 'sex'
     ];
 
     /**
@@ -35,8 +36,14 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'birth' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
-
+    /**
+     * @var array
+     */
+    protected $dates = ['birth', 'created_at', 'updated_at'];
 
 
 
@@ -49,7 +56,7 @@ class User extends Authenticatable
       'name' => 'required|string|max:255',
       'email' => 'required|string|email|max:255|unique:users',
       'password' => 'required|string|min:8|confirmed|regex:/^[a-zA-Z0-9]+$/',
-      'age' => 'required|integer',
+      'birth' => 'required',
       'sex' => 'required|boolean',
     );
 
@@ -102,7 +109,7 @@ class User extends Authenticatable
     *
     */
     public function ageClassify() {
-      $age = $this->attributes['age'];
+      $age = $this->age;
       if (6<=$age && $age<=12) {
         return array(1, );
       } elseif (12<$age && $age<=15) {
@@ -193,14 +200,26 @@ class User extends Authenticatable
       return $this->attributes['admin'];
     }
     /**
+     * Get 生年月日
+     *
+     * @param
+     * @return timestamp
+    **/
+    public function getBirthAttribute()
+    {
+      return $this->attributes['birth'];
+
+    }
+    /**
      * Get 年齢
      *
      * @param
-     * @return string
+     * @return int
     **/
     public function getAgeAttribute()
     {
-      return $this->attributes['age'];
+      $birth = new Carbon($this->attributes['birth']);
+      return $birth->age;
     }
     /**
      * Get パスワード

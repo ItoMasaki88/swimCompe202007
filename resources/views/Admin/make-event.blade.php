@@ -65,14 +65,16 @@
           </div>
 
           <div class="form-group row pb-3 pt-1">
-            <label class="col-3 my-0" class="control-label">出場形態</label>
-            <div class="form-check form-check-inline">
-              <input type="radio" value="True" class="custom-check-input col-auto my-0" id="individual" name="entryType">
-              <label class="custom-check-label col-auto my-0" for="individual">個人</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input type="radio" value="False" class="custom-check-input col-auto my-0" id="team" name="entryType">
-              <label class="custom-check-label col-auto my-0" for="team">団体</label>
+            <label class="col-md-3 my-0" class="control-label">出場形態</label>
+            <div class="col-md-7">
+              <div class="form-check form-check-inline">
+                <input type="radio" value="True" class="custom-check-input col-auto my-0" id="individual" name="entryType">
+                <label class="custom-check-label col-auto my-0" for="individual">個人</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input type="radio" value="False" class="custom-check-input col-auto my-0" id="team" name="entryType">
+                <label class="custom-check-label col-auto my-0" for="team">団体</label>
+              </div>
             </div>
           </div>
 
