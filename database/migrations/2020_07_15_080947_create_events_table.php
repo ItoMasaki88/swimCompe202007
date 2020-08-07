@@ -21,6 +21,8 @@ class CreateEventsTable extends Migration
             $table->integer('age');           //elemaentary, jouniorhigh, high, adult, over30, over50
             $table->boolean('playerType');    //individual, group
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

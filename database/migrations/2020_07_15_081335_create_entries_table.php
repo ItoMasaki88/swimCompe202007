@@ -20,6 +20,8 @@ class CreateEntriesTable extends Migration
             $table->float('result')->nullable();
             $table->integer('laneNo');
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

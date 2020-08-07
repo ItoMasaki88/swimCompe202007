@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Mail\AcceptWithdrawalMail;
+use Mail;
 
 class WithdrawalAction extends Controller
 {
@@ -18,10 +20,31 @@ class WithdrawalAction extends Controller
         //
         $user = \Auth::user();
 
+        $to = [
+          [
+            'email' => $user->email,
+            'name' => $user->name,
+          ]
+        ];
+
+        $content ='';
+        if ($request->content !=null) {
+          $content = $request->content;
+        }
+
+        Mail::to($to)->bcc('satarboad10@gmail.com')
+                     ->send(new AcceptWithdrawalMail($user->name, $content));
+
         \Auth::logout();
         $user->delete();
 
-        //topへリダイレクト
-        return redirect('/top');
+        $title = '退会完了';
+        $message = '退会を承認しました。';
+        $sub_message = '追加のご意見等ございましたら、「お問い合わせ」よりお願いいたします。';
+        return view('done', [
+          'title' => $title,
+          'message' => $message,
+          'sub_message' => $sub_message,
+        ]);
     }
 }

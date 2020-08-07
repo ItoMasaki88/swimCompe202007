@@ -4,10 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use \Illuminate\Database\Eloquent\SoftDeletes;
 
 class Race extends Model
 {
-  protected $guarded =array('id');
+  use SoftDeletes;
+
+  protected $guarded = ['id',];
 
   /**
    * The attributes that should be cast to native types.
@@ -18,9 +21,10 @@ class Race extends Model
       'startTime' => 'datetime',
   ];
   /**
+   *
    * @var array
    */
-  protected $dates = ['birth', 'created_at', 'updated_at'];
+  protected $dates = ['startTime', 'created_at', 'updated_at', 'deleted_at'];
 
   /**
    * リレーション処理=============================================================

@@ -1,16 +1,20 @@
-@extends('layout')
+@extends('layouts.swim')
+
+@section('title')
+    <title>{{ config('app.name', 'Laravel') }} 種目一覧</title>
+@endsection
 
 @section('content')
 <div class="card-body">
-  <h3 class="mb-3 my-titleborder-success">種目一覧</h3>
+  <h3 class="mb-4 my-titleborder-success">種目一覧</h3>
 
   <div class="container">
     <div class="row justify-content-center">
       <div class="col">
 
-        <div class="row my-2"><h5>絞り込み検索</h5></div>
+        <div class="row mb-3"><h5>絞り込み検索</h5></div>
         <form>
-          <div class="row">
+          <div class="row mb-4">
             <div class="col-auto">
               <div class="form-group">
                 <label for="style">泳法</label>
@@ -69,12 +73,12 @@
                 </select>
               </div>
             </div>
-            <div class="col-auto">
-              <button type="button" class="btn btn-secondary text-white mt-2">リセット</button>
+            <div class="col-auto my-auto">
+              <button type="button" class="btn btn-secondary text-white">リセット</button>
             </div>
             @auth
-            <div class="col-auto">
-              <div class="border border-secondary rounded p-1 my-3" id='boxOfCheck'>
+            <div class="col-auto my-auto">
+              <div class="border border-secondary rounded p-1" id='boxOfCheck'>
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="entriable">
                   <label class="custom-control-label" for="entriable">参加可能種目</label>

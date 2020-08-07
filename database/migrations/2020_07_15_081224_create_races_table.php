@@ -19,6 +19,8 @@ class CreateRacesTable extends Migration
             $table->dateTime('startTime');
             $table->integer('lanes');
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

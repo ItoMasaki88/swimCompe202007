@@ -1,4 +1,8 @@
-@extends('layout')
+@extends('layouts.swim')
+
+@section('title')
+    <title>{{ config('app.name', 'Laravel') }} 退会申請</title>
+@endsection
 
 @section('content')
 <div class="card-body">
@@ -17,7 +21,7 @@
               @csrf
             <div class="form-group mt-3">
               <label for="textarea">ご意見等ございましたら以下にお書きください。</label>
-              <textarea id="textarea" class="form-control" rows="5"></textarea>
+              <textarea id="textarea" class="form-control" rows="5" name="content"></textarea>
               @error('password')
               <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>

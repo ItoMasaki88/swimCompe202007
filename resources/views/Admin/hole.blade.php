@@ -1,4 +1,8 @@
-@extends('layout')
+@extends('layouts.swim')
+
+@section('title')
+    <title>{{ config('app.name', 'Laravel') }} レース全体情報</title>
+@endsection
 
 @section('content')
 <div class="card-body">
@@ -13,10 +17,6 @@
             <a class="btn btn-outline-info btn-lg" href="{{ route('ScheduleForm') }}" role="button">
               スケジュール編集</a>
           </div>
-          <div class="col-auto">
-            <a class="btn btn-outline-danger btn-lg" href="{{ route('RacesDelForm') }}" role="button">
-              種目・レース削除</a>
-          </div>
         </div>
         @foreach ($eventRecords as $eventRecord)
         <div class="card my-bg-whitesmoke mb-4">
@@ -29,10 +29,12 @@
                     {{ $eventRecord['eventId'] }}. {{ $eventRecord['eventName'] }}</h4>
                 </div>
                 <div class="col-auto">
-                  <form action="{{ route('ResultForm') }}" method="POST"> @csrf
-                    <input name="eventId" type="hidden" value="{{ $eventRecord['eventId'] }}">
-                    <input class="btn btn-warning" type="submit" value="結果入力">
-                  </form>
+                  <a href="{{ route('ResultForm', ['event' => $eventRecord['eventId'],]) }}"
+                    role="button" class="btn btn-warning">結果入力</a>
+                </div>
+                <div class="col-auto">
+                  <a href="{{ route('RacesAddDelForm', ['event' => $eventRecord['eventId'],]) }}"
+                    role="button" class="btn btn-danger">レース追加・削除</a>
                 </div>
               </div>
             </div>

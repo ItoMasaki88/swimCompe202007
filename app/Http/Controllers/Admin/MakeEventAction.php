@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\MakeEventRequest;
 use App\Event;
 use App\Race;
 use Carbon\Carbon;
@@ -16,17 +16,14 @@ class MakeEventAction extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function __invoke(MakeEventRequest $request)
     {
-        //
-        // validation が入る予定
-
         $data = Event::create([
           'style' => $request->style,     //free brest back fly medley
           'distance' => $request->distance,    //50 100 200
           'sex' => $request->sex,   //male female (mix)
           'age' => $request->age,   //elemaentary jouniorhigh high adult over30 over50
-          'playerType' => (bool) $request->entryType,    //individual group
+          'playerType' => $request->playerType==1,    //individual group
         ]);
 
         $firstDay = new Carbon( config('const.START_DAY') );

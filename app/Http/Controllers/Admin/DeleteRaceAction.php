@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\OnlyForAdminRequest;
 use App\Race;
 
 class DeleteRaceAction extends Controller
@@ -14,7 +14,7 @@ class DeleteRaceAction extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function __invoke(OnlyForAdminRequest $request)
     {
         //
         $race = Race::find($request->raceId);

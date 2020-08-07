@@ -5,15 +5,14 @@ const select_month = $('#select_month');
 const select_day = $('#select_day');
 let i;
 
-$("<input>", {
-  type: 'hidden',
-  id: 'input_id',
-  value: 12345
-}).appendTo('#targetId');
-
 function set_year(){
+  // 未選択を生成
+  $("<option>", {
+    value: 0,
+    text: '選択してください'
+  }).appendTo('#select_year');
   // 年を生成(100年分)
-  for(i = 2019; i > 1919; i--){
+  for(i = 2014; i > 1919; i--){
     $("<option>", {
       value: i,
       text: i
@@ -21,6 +20,11 @@ function set_year(){
   }
 }
 function set_month(){
+  // 未選択を生成
+  $("<option>", {
+    value: 0,
+    text: '選択してください'
+  }).appendTo('#select_month');
   // 月を生成(12)
   for(i = 1; i <= 12; i++){
     $("<option>", {
@@ -32,6 +36,11 @@ function set_month(){
 function set_day(){
   //日の選択肢を空にする
   $('#select_day').empty();
+  // 未選択を生成
+  $("<option>", {
+    value: 0,
+    text: '選択してください'
+  }).appendTo('#select_day');
   // 日を生成(動的に変える)
   let last_day = 30;
   const month_array = [2,4,6,9,11];

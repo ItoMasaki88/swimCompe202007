@@ -1,4 +1,8 @@
-@extends('layout')
+@extends('layouts.swim')
+
+@section('title')
+    <title>{{ config('app.name', 'Laravel') }} {{ __('Login') }}</title>
+@endsection
 
 @section('content')
 <div class="card-header">{{ __('Login') }}</div>
@@ -61,6 +65,20 @@
             </div>
         </div>
     </form>
+
+    <div class="row mt-4">
+      <div class="col-md-6 offset-md-4">
+        <a class="btn btn-outline-success btn-block" href="{{ route('PlayerLogin') }}" role="button">
+          選手（30代男性）として簡単ログイン</a>
+      </div>
+    </div>
+    <div class="row my-2">
+      <div class="col-md-6 offset-md-4">
+        <a class="btn  btn-outline-danger btn-block" href="{{ route('AdminLogin') }}" role="button">
+          大会運営者として簡単ログイン</a>
+      </div>
+    </div>
+
 </div>
 
 @endsection

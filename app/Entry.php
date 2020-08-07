@@ -4,20 +4,20 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use \Illuminate\Database\Eloquent\SoftDeletes;
 
 class Entry extends Model
 {
-  protected $guarded =array('id');
+  use SoftDeletes;
 
   /**
-   * The attributes that are mass assignable.
+   * The attributes that are gurded.
    *
    * @var array
    */
-  protected $fillable = [
-      'user_id', 'race_id', 'laneNo',
-  ];
+  protected $guarded = ['id',];
 
+  protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
   /**=======リレーション処理===================================
    *

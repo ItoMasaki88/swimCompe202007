@@ -1,4 +1,8 @@
-@extends('layout')
+@extends('layouts.swim')
+
+@section('title')
+    <title>{{ config('app.name', 'Laravel') }} パスワード変更</title>
+@endsection
 
 @section('content')
 <div class="card-body">
@@ -6,63 +10,58 @@
 
   <div class="container py-3">
     <div class="row justify-content-center">
-      <div class="col-11">
+      <div class="col-12">
 
         <form method="POST" action="{{ route('ChangePassword') }}">
             @csrf
-            <div class="form-group row mt-3">
-              <label for="old_password" class="col-md-4 col-form-label text-md-right">現在の{{ __('Password') }}</label>
 
-              <div class="col mb-1">
-                <input id="old_password" type="password" class="form-control @error('password') is-invalid @enderror"
-                 name="old_password" required autocomplete="current-password">
+            <div class="form-group row pb-4 border-bottom">
+              <label for="old_password" class="col-md-5 col-form-label text-md-right">現在の{{ __('Password') }}</label>
+              <div class="col-md-6">
+                <input id="old_password" type="password" name="old_password"
+                class="form-control @error('old_password') is-invalid @enderror" required>
 
-                @error('password')
-                  <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                  </span>
+                @error('old_password')
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+              </div>
+            </div>
+
+            <div class="form-group row pt-2">
+              <label for="new_password" class="col-md-5 col-form-label text-md-right">新しい{{ __('Password') }}</label>
+              <div class="col-md-6">
+                <input id="new_password" type="password" name="new_password"
+                class="form-control @error('new_password') is-invalid @enderror" required>
+
+                @error('new_password')
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </span>
                 @enderror
               </div>
             </div>
 
             <div class="form-group row">
-              <label for="new_password" class="col-md-4 col-form-label text-md-right">新しい{{ __('Password') }}</label>
-
-              <div class="col">
-                <input id="new_password" type="password" class="form-control @error('password') is-invalid @enderror"
-                 name="new_password" required autocomplete="current-password">
-
-                @error('password')
-                  <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                  </span>
-                @enderror
+              <label for="new_password_confirm" class="col-md-5 col-form-label text-md-right">新しい{{ __('Password') }}（確認）</label>
+              <div class="col-md-6">
+                <input id="new_password_confirm" type="password" name="new_password_confirm"
+                  class="form-control @error('new_password') is-invalid @enderror" required>
               </div>
             </div>
 
-            <div class="form-group row">
-              <label for="new_password_conf" class="col-md-4 col-form-label text-md-right">新しい{{ __('Password') }}（確認）</label>
-
-              <div class="col">
-                <input id="new_password_conf" type="password" class="form-control @error('password') is-invalid @enderror"
-                 name="new_password_conf" required autocomplete="current-password">
-
-                @error('password')
-                  <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                  </span>
-                @enderror
-              </div>
-            </div>
-
-            <div class="row justify-content-end">
-              <div class="col-auto">
-                <a class="btn btn-secondary" href="{{ route('EditInfoForm') }}" role="button">
-                  戻る</a>
-              </div>
-              <div class="col-auto">
-                <div class="form-group">
-                  <button type="submit" class="btn btn-primary">変更</button>
+            <div class="row">
+              <div class="col-md-11">
+                <div class="row justify-content-end">
+                  <div class="col-auto">
+                    <a class="btn btn-secondary" href="{{ route('EditInfoForm') }}" role="button">戻る</a>
+                  </div>
+                  <div class="col-auto">
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-primary">変更</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

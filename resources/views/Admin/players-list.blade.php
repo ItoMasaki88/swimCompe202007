@@ -1,4 +1,8 @@
-@extends('layout')
+@extends('layouts.swim')
+
+@section('title')
+    <title>{{ config('app.name', 'Laravel') }} 選手一覧</title>
+@endsection
 
 @section('content')
 <div class="card-body">

@@ -1,4 +1,8 @@
-@extends('layout')
+@extends('layouts.swim')
+
+@section('title')
+    <title>{{ config('app.name', 'Laravel') }} お問い合わせ</title>
+@endsection
 
 @section('content')
 <div class="card-body">
@@ -12,24 +16,40 @@
               @csrf
 
             <div class="form-group">
+              <label for="name">{{ __('Name') }}</label>
+              <input id="name" type="text" name="name" required autocomplete="name"
+                class="form-control col-md-6 @error('name') is-invalid @enderror"
+                value="@if ( old('name') !== null ) {{ old('name') }} @elseif(Auth::check()){{ Auth::user()->name }}@endif">
+
+              @error('name')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+              @enderror
+            </div>
+
+            <div class="form-group">
               <label for="email">{{ __('E-Mail Address') }}</label>
-              <div class="col-md-6">
-                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-                @error('email')
-                <span class="invalid-feedback" role="alert">
-                  <strong>{{ $message }}</strong>
-                </span>
-                @enderror
-              </div>
+              <input id="email" type="email" required autocomplete="email"
+                class="form-control col-md-6 @error('email') is-invalid @enderror" name="email"
+                value="@if ( old('email') !== null ) {{ old('email') }} @elseif ( Auth::check() ) {{ Auth::user()->email }} @endif">
+
+              @error('email')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+              @enderror
             </div>
 
             <div class="form-group h-50">
               <label for="textarea">お問い合わせ内容</label>
-              <textarea id="textarea" class="form-control" name="content" rows="10"></textarea>
-              @error('password')
-              <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-              </span>
+              <textarea id="textarea" name="content" rows="10" required
+                class="form-control @error('content') is-invalid @enderror"></textarea>
+
+              @error('content')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
               @enderror
             </div>
 

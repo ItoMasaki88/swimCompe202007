@@ -1,8 +1,18 @@
-@extends('layout')
+@extends('layouts.swim')
+
+@section('title')
+    <title>{{ config('app.name', 'Laravel') }} 結果入力</title>
+@endsection
 
 @section('content')
 <div class="card-body">
   <h3 class="mb-5 my-titleborder-orangered">結果入力</h3>
+
+  @if ($errors->any())
+      <div class="alert alert-danger">
+        {{ $errors->all()[0] }}
+      </div>
+  @endif
 
   <div class="container">
     <div class="row justify-content-center">
@@ -59,12 +69,13 @@
                           <td class="text-nowrap">{{$entryRecord['age']}}</td>
                           <td class="text-nowrap">
                             <div class="form-group row py-1">
-                              <input value="{{$entryRecord['min']}}" type="number" class="col-3 py-2 form-control"
-                                  id="min{{$entryId}}" name="mins[]">
+                              <input value="{{$entryRecord['min']}}" type="number" name="mins[]"
+                                  class="col-3 py-2 form-control" id="min{{$entryId}}">
                               <label class="col-auto py-2" for="min{{$entryId}}">分</label>
-                              <input value="{{$entryRecord['sec']}}" type="number" class="col-3 py-2 form-control"
-                                  id="sec{{$entryId}}" name="secs[]" step="0.01">
+                              <input value="{{$entryRecord['sec']}}" type="number" name="secs[]"
+                                  class="col-3 py-2 form-control" step="0.01" id="sec{{$entryId}}">
                               <label class="col-auto py-2" for="sec{{$entryId}}">秒</label>
+
                             </div>
                           </td>
                           <td class="text-nowrap">{{$entryRecord['rank']}}</td>
@@ -88,8 +99,7 @@
 
         <div class="row justify-content-end">
           <div class="col-auto">
-            <a class="btn btn-secondary" href="{{ route('Hole') }}" role="button">
-              戻る</a>
+            <a class="btn btn-secondary" href="{{ route('Hole') }}" role="button">戻る</a>
           </div>
         </div>
 

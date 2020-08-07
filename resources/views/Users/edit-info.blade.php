@@ -1,4 +1,8 @@
-@extends('layout')
+@extends('layouts.swim')
+
+@section('title')
+    <title>{{ config('app.name', 'Laravel') }} 選手情報の編集</title>
+@endsection
 
 @section('content')
 <div class="card-body">
@@ -13,6 +17,7 @@
         @endphp
         <form action="{{ route('EditInformation') }}" method="post">
           @csrf
+
           <table class="table">
             <tbody>
               <tr>
@@ -51,39 +56,50 @@
                 <th scope="row"> <label for="email">{{ __('E-Mail Address') }}</label></th>
                 <td>
                   <div class="form-group">
-                    <input type="emal" value="{{ $user->email }}" class="form-control" id="email" name="email"/>
+                    <input type="emal" value="{{ $user->email }}" id="email" name="email"
+                      class="form-control @error('email') is-invalid @enderror" required/>
+
+                    @error('email')
+                        <span class="invalid-feedback" role="alert">
+                          <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
-          <div class="form-group">
-            <div class="col-auto">
-              <label for="password" class="col-form-label">確認のため{{ __('Password') }}を入力してください。</label>
-              <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                name="password" required autocomplete="current-password">
-              @error('password')
-              <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-              </span>
-              @enderror
-            </div>
-            <div class="row justify-content-end">
-              <div class="col-auto mt-1">
-                <a href="{{ route('ChangePassForm') }}" role="button">
-                  {{ __('Password') }}変更</a>
+          <div class="container">
+            <div class="form-group row justify-content-end">
+              <div class="col-md-8">
+                <label for="password" class="col-form-label">確認のため{{ __('Password') }}を入力してください。</label>
+                <input id="password" type="password" autocomplete="current-password" required
+                  name="password" class="form-control @error('password') is-invalid @enderror">
+
+                @error('password')
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+                <div class="row justify-content-end">
+                  <div class="col-auto mt-1">
+                    <a href="{{ route('ChangePassForm') }}" role="button">{{ __('Password') }}変更</a>
+                  </div>
                 </div>
+              </div>
             </div>
           </div>
 
-          <div class="row justify-content-end">
-            <div class="col-auto">
-              <a class="btn btn-secondary" href="{{ route('Mypage') }}" role="button">
-                戻る</a>
-            </div>
-            <div class="col-auto">
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary">編集</button>
+          <div class="container">
+            <div class="row justify-content-end">
+              <div class="col-auto">
+                <a class="btn btn-secondary" href="{{ route('Mypage') }}" role="button">
+                  戻る</a>
+              </div>
+              <div class="col-auto">
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary">編集</button>
+                </div>
               </div>
             </div>
           </div>

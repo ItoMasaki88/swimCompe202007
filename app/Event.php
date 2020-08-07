@@ -3,10 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use \Illuminate\Database\Eloquent\SoftDeletes;
 
 class Event extends Model
 {
-  protected $guarded = array('id');
+  use SoftDeletes;
+
+  protected $guarded = ['id',];
+
+  protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
   /**
    * 状態定義==========================================================
@@ -96,7 +101,7 @@ class Event extends Model
    public function getEntryRaceIdAttribute()
    {
      foreach ($this->races as $race) {
-       if ($race->lanes > count($race->entries)) {
+       if ($race->lanes > $race->entries->count()) {
          return $race->id;
        }
      }

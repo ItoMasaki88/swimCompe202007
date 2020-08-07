@@ -1,8 +1,19 @@
-@extends('layout')
+@extends('layouts.swim')
+
+@section('title')
+    <title>{{ config('app.name', 'Laravel') }} スケジュール編集</title>
+@endsection
 
 @section('content')
 <div class="card-body">
   <h3 class="mb-5 my-titleborder-orangered">スケジュール編集</h3>
+
+  @if ($errors->any())
+      <div class="alert alert-danger">
+        {{ $errors->all()[0] }}
+      </div>
+  @endif
+
 
   <div class="container">
     <div class="row justify-content-center">
@@ -25,7 +36,7 @@
 
             <div class="card-body">
               @foreach ($eventRecord['raceRecords'] as $raceRecord)
-              @php $raceId = $raceRecord['raceId']; @endphp
+              @php $raceId = $raceRecord['raceId'] @endphp
               <div class="container">
                 <div class="row">
                   <div class="col-auto">
@@ -33,18 +44,25 @@
                   </div>
                 </div>
 
-                <input type="hidden" name="raceIds[]" value="{{$raceId}}">
-                <div class="form-group row py-1">
-                  <label class="col-2 py-1" for="date">開始時間</label>
-                  <input value="{{$raceRecord['date']}}" type="number" class="col-2 py-2 form-control"
-                      id="date{{$raceId}}" name="dates[]">
-                  <label class="col-auto py-2" for="date{{$raceId}}">日目</label>
-                  <input value="{{$raceRecord['hour']}}" type="number" class="col-2 py-2 form-control"
-                      id="hour{{$raceId}}" name="hours[]">
-                  <label class="col-auto py-2" for="hour{{$raceId}}">時</label>
-                  <input value="{{$raceRecord['min']}}" type="number" class="col-2 py-2 form-control"
-                      id="min{{$raceId}}" name="mins[]">
-                  <label class="col-auto py-2" for="min{{$raceId}}">分</label>
+                <div class="form-group row py-1 mt-4">
+                  <label class="col-md-2 py-1 col-form-label text-md-right" for="date">開始時間</label>
+                  <div class="col-md-9">
+                    <div class="container">
+                      <div class="row">
+                        <input type="hidden" name="raceIds[]" value="{{$raceId}}">
+                        <input type="number" id="date{{$raceId}}" value="{{ $raceRecord['date'] }}"
+                          class="col-md-2 col-9 py-2 form-control" name="dates[{{$raceId}}]" required>
+                        <label class="col-auto py-2 col-form-label" for="date{{$raceId}}">日目</label>
+                        <input type="number" id="hour{{$raceId}}" value="{{ $raceRecord['hour'] }}"
+                          class="col-md-3 col-9 py-2 form-control" name="hours[{{$raceId}}]" required>
+                        <label class="col-auto py-2 col-form-label" for="hour{{$raceId}}">時</label>
+                        <input type="number" id="minute{{$raceId}}" value="{{ $raceRecord['min'] }}"
+                          class="col-md-3 col-9 py-2 form-control" name="minutes[{{$raceId}}]" required>
+                        <label class="col-auto py-2 col-form-label" for="minute{{$raceId}}">分</label>
+
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="row mb-5">

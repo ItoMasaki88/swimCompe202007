@@ -44,6 +44,6 @@ class RacesTableSeeder extends Seeder
           'updated_at' => Carbon::now(),
         ]);
       }
-      
+
     }
 }

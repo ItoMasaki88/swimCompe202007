@@ -1,29 +1,10 @@
 <!DOCTYPE html>
+<html lang="ja" dir="ltr">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- CSRF Token -->
-  <meta name="csrf-token" content="{{ csrf_token() }}">
-
-  <title>{{ config('app.name', 'Laravel') }}</title>
-
-  <!-- Scripts -->
-  <script src="{{ asset('js/app.js') }}"></script>
-
-  <!-- Fonts -->
-  <link rel="dns-prefetch" href="//fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
-  <!-- Styles -->
-  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-  <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/16c94c289c.js" crossorigin="anonymous"></script>
-
-  <!-- favicon -->
-  <link rel="icon" href="{{ asset('/favicon.ico') }}">
+  @include('head')
+  @yield('title')
 </head>
-
 
 <body>
 
@@ -51,11 +32,11 @@
         <li class="nav-item"><a class="nav-link @if(Request::is('top')) active @endif" href="/top">TOP</a></li>
         <li class="nav-item"><a class="nav-link @if(Request::is('info')) active @endif" href="/info">大会情報</a></li>
         <li class="nav-item"><a class="nav-link @if(Request::routeIs('Events')) active @endif" href="{{ route('Events') }}">種目一覧</a></li>
+        <li class="nav-item"><a class="nav-link @if(Request::routeIs('InquiryForm')) active @endif" href="{{ route('InquiryForm') }}">お問い合わせ</a></li>
         @auth
           @php $user = Auth::user(); @endphp
         <li class="nav-item"><a class="nav-link @if(Request::is('users/mypage*')) active @endif" href="{{ route('Mypage') }}">マイページ</a></li>
         <li class="nav-item"><a class="nav-link @if(Request::routeIs('Entries')) active @endif" href="{{ route('Entries') }}">エントリー</a></li>
-        <li class="nav-item"><a class="nav-link @if(Request::routeIs('InquiryForm')) active @endif" href="{{ route('InquiryForm') }}">お問い合わせ</a></li>
           @if ($user->admin == 1)
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle @if(Request::is('admin/*')) active @endif"
@@ -75,12 +56,7 @@
         @auth
         <li class="nav-item"><a class="nav-link disabled" href="#">ようこそ, {{ $user->name }}さん</a></li>
         <li class="nav-item"><a class="nav-link disabled" href="#">|</a></li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
-           document.getElementById('logout-form').submit();"> {{ __('Logout') }}
-          </a>
-          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
-        </li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('MyLogout') }}">{{ __('Logout') }}</a></li>
         @endauth
         @guest
         <li class="nav-item"><a class="nav-link  @if(Request::routeIs('login')) active @endif" href="{{ route('login') }}">{{ __('Login') }}</a></li>

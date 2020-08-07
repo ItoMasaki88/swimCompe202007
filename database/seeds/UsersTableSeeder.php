@@ -24,8 +24,24 @@ class UsersTableSeeder extends Seeder
         'sex' => True,
         'birth' => $a_birth,
         'email' => 'admin@gmail.com',
-        'password' => Hash::make('admin'),
+        'password' => Hash::make('admin321'),
         'admin' => True,
+        'remember_token' => str_random(10),
+        'created_at' => $now,
+        'updated_at' => $now,
+      ]);
+
+      /**
+       *  「選手として簡単ログイン」のサンプル
+      **/
+      $p_birth = new Carbon('1984-08-10');
+      DB::table('users')->insert([
+        'name' => 'ゲスト',
+        'sex' => True,
+        'birth' => $p_birth,
+        'email' => 'guest@gmail.com',
+        'password' => Hash::make('guest134pass'),
+        'admin' => False,
         'remember_token' => str_random(10),
         'created_at' => $now,
         'updated_at' => $now,
@@ -33,7 +49,7 @@ class UsersTableSeeder extends Seeder
 
 
       $faker = Faker\Factory::create();
-      $birthBands = [[6,12,], [13,15,], [16,18,], [19,29,], [30,49,], [50,80,],];
+      $birthBands = [[7,12,], [13,15,], [16,18,], [19,29,], [30,49,], [50,80,],];
       $birthCounts = config('const.AGE_COUNTS');
       /**
        *  選手のサンプル
@@ -47,10 +63,10 @@ class UsersTableSeeder extends Seeder
               'sex' => $sex,
               'birth' => $birth->subDay(
                 (rand($birthBands[$eventCount][0], $birthBands[$eventCount][1]) - 1)*365
-                + rand(0,11)*31 +  rand(1,31)
+                 + rand(0,11)*30 + rand(1,31)
               ),
               'email' => $faker->email,
-              'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+              'password' => Hash::make('secret321'),
               'admin' => False,
               'remember_token' => str_random(10),
               'created_at' => $now,
@@ -59,7 +75,6 @@ class UsersTableSeeder extends Seeder
           }
         }
       }
-
 
     }
 }

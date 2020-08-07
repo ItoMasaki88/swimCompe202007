@@ -1,27 +1,29 @@
-@extends('layout')
+@extends('layouts.swim')
+
+@section('title')
+    <title>{{ config('app.name', 'Laravel') }} レース追加・削除</title>
+@endsection
 
 @section('content')
 <div class="card-body">
-  <h3 class="mb-5 my-titleborder-orangered">種目・レース削除</h3>
+  <h3 class="mb-5 my-titleborder-orangered">レース追加・削除</h3>
 
   <div class="container">
     <div class="row justify-content-center">
       <div class="col">
 
-        @foreach ($eventRecords as $eventRecord)
-        @php $eventId = $eventRecord['eventId']; @endphp
-        <div class="card mb-4 text-white bg-secondary">
+        <div class="card mb-4 my-bg-whitesmoke">
 
           <div class="card-header">
             <div class="container">
               <div class="row">
                 <div class="col-auto py-1 mr-auto">
-                  <h5 class="mb-0">{{ $eventId }}. {{ $eventRecord['eventName'] }}</h5>
+                  <h5 class="my-subtitleborder-royalblue mb-0">{{ $eventId }}. {{ $eventName }}</h5>
                 </div>
                 <div class="col-auto">
                   <form action="{{route('DelEvent')}}" method="POST"> @csrf
                     <input type="hidden" name="eventId" value="{{$eventId}}">
-                    @if ($eventRecord['event_count'] == 0)
+                    @if ($event_count == 0)
                     <input class="btn btn-outline-danger" type="submit" value="種目削除">
                     @else
                     <button type="button" class="btn btn-outline-danger" data-toggle="modal"
@@ -48,12 +50,12 @@
           </div>
 
           <div class="card-body">
-            @foreach ($eventRecord['raceRecords'] as $raceRecord)
+            @foreach ($raceRecords as $raceRecord)
             @php $raceId = $raceRecord['raceId']; @endphp
             <div class="container">
               <div class="row">
                 <div class="col-auto">
-                  <h6 class="border-bottom border-light">第{{ $raceRecord['No'] }}レース</h6>
+                  <h6 class="my-subtitleborder-skyblue">第{{ $raceRecord['No'] }}レース</h6>
                 </div>
               </div>
 
@@ -61,17 +63,8 @@
                 <div class="col-md-2">
                   <p class="card-text">開始時間</p>
                 </div>
-                <div class="col-auto">
-                  <p class="card-text">{{$raceRecord['startTime']}}</p>
-                </div>
-              </div>
-
-              <div class="row mb-5">
-                <div class="col-2">
-                  <p class="card-text">エントリー数</p>
-                </div>
                 <div class="col-auto mr-auto">
-                  <p class="card-text">{{$raceRecord['race_count']}} / {{$raceRecord['lanes']}}</p>
+                  <p class="card-text">{{$raceRecord['startTime']}}</p>
                 </div>
 
                 <div class="col-auto">
@@ -91,7 +84,7 @@
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-                            <input class="btn btn-warning" type="submit" value="削除する">
+                            <input class="btn btn-danger" type="submit" value="削除する">
                           </div>
                         </div>
                       </div>
@@ -100,12 +93,72 @@
                   </form>
                 </div>
               </div>
+
+              @if (!is_null($raceRecord['entryRecords']))
+              <div class="container mt-2 mb-4">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="text-nowrap">レーン</th>
+                        <th scope="col" class="text-nowrap">氏名</th>
+                        <th scope="col" class="text-nowrap">年齢</th>
+                        <th scope="col" class="text-nowrap">記録</th>
+                        <th scope="col" class="text-nowrap">順位</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach ($raceRecord['entryRecords'] as $entryRecord)
+                      <tr>
+                        <td class="text-nowrap">{{$entryRecord['laneNo']}}</td>
+                        <td class="text-nowrap">{{$entryRecord['playerName']}}</td>
+                        <td class="text-nowrap">{{$entryRecord['age']}}</td>
+                        <td class="text-nowrap">{{$entryRecord['result']}}</td>
+                        <td class="text-nowrap">{{$entryRecord['rank']}}</td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              @endif
+
+              <div class="row mb-5">
+                <div class="col-2">
+                  <p class="card-text">エントリー数</p>
+                </div>
+                <div class="col-auto mr-auto">
+                  <p class="card-text">{{$raceRecord['race_count']}} / {{$raceRecord['lanes']}}</p>
+                </div>
+              </div>
+
             </div>
             @endforeach
+            <form action="{{route('AddRace')}}" method="POST"> @csrf
+              <div class="container">
+                <div class="form-group row justify-content-end">
+                  <input type="hidden" name="eventId" value="{{$eventId}}">
+                  <input type="number" name="races" id="races" required
+                    class="col-md-2 col-6 form-control @if($valid) is-invalid @endif @error('races') is-invalid @enderror">
+                  <label class="col-auto py-auto col-form-label" for="races">レース</label>
+                  <input class="btn btn-primary col-auto" type="submit" value="追加する">
+
+                  @if($valid)
+                      <span class="invalid-feedback text-md-right" role="alert">
+                          <strong>レース数は最大10までです。</strong>
+                      </span>
+                  @endif
+                  @error('races')
+                      <span class="invalid-feedback text-md-right" role="alert">
+                          <strong>{{ $message }}</strong>
+                      </span>
+                  @enderror
+                </div>
+              </div>
+            </form>
           </div>
 
         </div>
-        @endforeach
 
         <div class="row justify-content-end">
           <div class="col-auto">
