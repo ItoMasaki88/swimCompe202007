@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-<div class="card-header">{{ __('Login') }}a</div>
+<div class="card-header">{{ __('Login') }}</div>
 
 <div class="card-body">
     <form method="POST" action="{{ route('login') }}">
