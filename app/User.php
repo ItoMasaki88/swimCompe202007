@@ -135,7 +135,7 @@ class User extends Authenticatable
     * @return array(int)
     */
     public function sexClassify() {
-      $sex = $this->attributes['sex'] == 1;
+      $sex = $this->attributes['sex']; // boolean
       if ($sex) {
         return array(1, 3,);
       } else {
@@ -157,7 +157,7 @@ class User extends Authenticatable
     **/
     public function getTextSexAttribute()
     {
-      if ($this->attributes['sex']==1) $sex = '男性';
+      if ($this->attributes['sex']) $sex = '男性';
       else $sex = '女性';
       return $sex;
     }
