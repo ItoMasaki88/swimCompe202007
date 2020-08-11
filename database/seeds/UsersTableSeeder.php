@@ -48,7 +48,7 @@ class UsersTableSeeder extends Seeder
       ]);
 
 
-      $faker = Faker\Factory::create();
+      $faker = Faker\Factory::create('ja_JP');
       $birthBands = [[7,12,], [13,15,], [16,18,], [19,29,], [30,49,], [50,80,],];
       $birthCounts = config('const.AGE_COUNTS');
       /**
