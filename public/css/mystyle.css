@@ -73,3 +73,7 @@ footer {
   background: -webkit-linear-gradient(to right, rgb(135, 206, 235), transparent);
   background: linear-gradient(to right, rgb(135, 206, 235), transparent);
 }
+
+.my-top_text {
+  font-size: 18px;
+}

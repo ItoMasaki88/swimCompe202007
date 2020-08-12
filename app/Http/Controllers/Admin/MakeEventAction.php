@@ -18,6 +18,19 @@ class MakeEventAction extends Controller
      */
     public function __invoke(MakeEventRequest $request)
     {
+        // 種目が重複しているかのバリデーションと未通過時の処理------------------
+        if (
+          Event::where('style', $request->style)
+            ->where('distance', $request->distance)
+            ->where('sex', $request->sex)
+            ->where('age', $request->age)
+            ->where('playerType', $request->playerType==1)
+            ->first() !== null
+        ) {
+          return view('Admin.make-event', ['duplicate' => true]);
+        }
+        // バリデーションここまで------------------------------------
+
         $data = Event::create([
           'style' => $request->style,     //free brest back fly medley
           'distance' => $request->distance,    //50 100 200
@@ -32,6 +45,7 @@ class MakeEventAction extends Controller
           + $request->hour *60*60
           + ($request->minute) *60 -600
         );
+
         for ($i=0; $i<ceil($request->races); $i++) {
           Race::create([
             'event_id' => $data->id,
@@ -40,6 +54,6 @@ class MakeEventAction extends Controller
           ]);
         }
 
-        return redirect( route('Hole') );
+        return redirect()->route('Hole');
     }
 }

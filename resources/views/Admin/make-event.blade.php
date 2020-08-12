@@ -12,6 +12,12 @@
     <div class="row justify-content-center">
       <div class="col-12">
 
+        @if(isset($duplicate))
+            <div class="alert alert-danger">
+                入力した種目は既に存在します。
+            </div>
+        @endif
+
         <form action="{{ route('MakeEventDo') }}" method="post">
           @csrf
 
